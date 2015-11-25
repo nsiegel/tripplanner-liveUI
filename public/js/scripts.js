@@ -11,13 +11,15 @@ $(function () {
 
     var createItineraryItem = function (placeName) {
 
-        var $item = $('<li></li>');
+        var $item = $('<li class="remove-me"></li>');
         var $div = $('<div class="itinerary-item"></div>');
 
         $item.append($div);
 
         $div.append('<span class="title">'+ placeName +'</span>');
         $div.append('<button class="btn btn-xs btn-danger remove btn-circle">x</button>');
+
+
 
         return $item;
 
@@ -40,10 +42,25 @@ $(function () {
         var $listToAppendTo = $('#' + sectionName + '-list').children('ul');
         var placeName = $this.siblings('select').val();
         var placeObj = getPlaceObject(sectionName, placeName);
+        console.log(placeObj)
 
-        drawLocation(map, placeObj.place[0].location);
+        drawLocation(map, placeObj);
         $listToAppendTo.append(createItineraryItem(placeName));
+    });
 
+    $('#itinerary').delegate('.remove', 'click', function (){
+      var $this = $(this);
+      // console.log($this.siblings('span').text());
+      var $listToRemove = $this.parents('.remove-me');
+      var removeThis = markers.filter(function(location) {
+        if (location.name === $this.siblings('span').text()) {
+          console.log("blah");
+          return location;
+        }
+      });
+      console.log(removeThis);
+      removeThis[0].marker.setMap(null);
+      $listToRemove.remove();
     });
 
 });

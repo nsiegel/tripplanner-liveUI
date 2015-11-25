@@ -49,13 +49,15 @@ function initialize_gmaps() {
     return map;
 
 }
-
+var markers = [];
 // draw some locations on the map
-function drawLocation(map, location, opts) {
+function drawLocation(map, place, opts) {
     if (typeof opts !== 'object') {
         opts = {};
     }
-    opts.position = new google.maps.LatLng(location[0], location[1]);
+    opts.position = new google.maps.LatLng(place.place[0].location[0], place.place[0].location[1]);
     opts.map = map;
     var marker = new google.maps.Marker(opts);
+    // console.log(location)
+    markers.push({name: place.name, marker: marker});
 }
